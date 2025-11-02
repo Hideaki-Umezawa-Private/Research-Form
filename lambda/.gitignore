@@ -1,5 +1,9 @@
 node_modules
 dist
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
 .vscode/*
 !.vscode/extensions.json
 .idea
@@ -8,4 +12,4 @@ dist
 *.ntvs*
 *.njsproj
 *.sln
-*.sw?   
+*.sw?

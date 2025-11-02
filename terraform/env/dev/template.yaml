@@ -1,0 +1,28 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Globals:
+  Api:
+    Cors:
+      AllowOrigin: "'http://localhost:5173'"
+      AllowMethods: "'GET,POST,PUT,OPTIONS'"
+      AllowHeaders: "'Content-Type,Authorization'"
+
+Resources:
+  HelloWorldFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: ../../../lambda/main/helloWorld/dist/
+      Handler: index.handler
+      Runtime: nodejs20.x
+      Environment:
+        Variables:
+          AWS_ACCESS_KEY_ID: test
+          AWS_SECRET_ACCESS_KEY: test
+          S3_ENDPOINT: http://localstack:4566
+          DYNAMODB_ENDPOINT: http://localstack:4566
+      Events:
+        HelloWorldApi:
+          Type: Api
+          Properties:
+            Path: /hello-world
+            Method: get
