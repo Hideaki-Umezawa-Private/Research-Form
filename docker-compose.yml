@@ -1,0 +1,24 @@
+services:
+  localstack:
+    container_name: "localstack-research-form"
+    image: localstack/localstack
+    ports:
+      - "127.0.0.1:4566:4566"            # LocalStack Gateway
+      - "9000:9000"
+    volumes:
+      - "./init:/etc/localstack/init/ready.d"
+      - "/var/run/docker.sock:/var/run/docker.sock"
+
+    environment:
+      - AWS_ACCESS_KEY_ID=test
+      - AWS_SECRET_ACCESS_KEY=test
+      - DYNAMODB_SHARE_DB=1
+      - DEBUG=1                          # デバッグログを有効化
+      - SERVICES=dynamodb,s3         # 使用するサービスを明示
+      - PERSISTENCE=1                    # データの永続化を有効化
+      - DOCKER_HOST=unix:///var/run/docker.sock
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:4566/health" ]
+      interval: 30s
+      timeout: 10s
+      retries: 3
