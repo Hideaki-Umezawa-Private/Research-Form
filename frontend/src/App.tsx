@@ -11,8 +11,13 @@ export const App = () => {
 
     return (
         <>
-            <h1>Tailwind Ready!</h1>
-            <h1 className="text-3xl font-bold text-red-500"> Tailwind Ready! </h1>
+            <div className="grid grid-cols-5 gap-4 p-4">
+                <div className="bg-neutral-500 text-white p-2 rounded">Neutral</div>
+                <div className="bg-gray-500 text-white p-2 rounded">Gray</div>
+                <div className="bg-zinc-500 text-white p-2 rounded">Zinc</div>
+                <div className="bg-stone-500 text-white p-2 rounded">Stone</div>
+                <div className="bg-slate-500 text-white p-2 rounded">Slate</div>
+            </div>
             <div>{getHelloWorld}</div>
         </>
     )
