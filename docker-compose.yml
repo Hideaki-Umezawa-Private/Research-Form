@@ -14,7 +14,7 @@ services:
       - AWS_SECRET_ACCESS_KEY=test
       - DYNAMODB_SHARE_DB=1
       - DEBUG=1                          # デバッグログを有効化
-      - SERVICES=dynamodb,s3         # 使用するサービスを明示
+      - SERVICES=dynamodb,s3,sts         # 使用するサービスを明示
       - PERSISTENCE=1                    # データの永続化を有効化
       - DOCKER_HOST=unix:///var/run/docker.sock
     healthcheck:
