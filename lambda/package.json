@@ -12,13 +12,10 @@
   "license": "ISC",
   "type": "commonjs",
   "devDependencies": {
-    "@types/node": "^24.10.1",
     "typescript": "^5.9.3"
   },
   "dependencies": {
-    "@aws-sdk/client-dynamodb": "^3.936.0",
     "@types/aws-lambda": "^8.10.157",
-    "dotenv": "^17.2.3",
     "esbuild": "^0.25.12",
     "globby": "^15.0.0"
   }
