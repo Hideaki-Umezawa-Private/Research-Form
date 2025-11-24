@@ -1,184 +1,157 @@
 import {
-    AlertDialog, AlertDialogAction, AlertDialogCancel,
-    AlertDialogContent, AlertDialogDescription, AlertDialogFooter,
+    AlertDialog,
+    AlertDialogAction,
+    AlertDialogCancel,
+    AlertDialogContent,
+    AlertDialogDescription,
+    AlertDialogFooter,
     AlertDialogHeader,
     AlertDialogTitle,
     AlertDialogTrigger
 } from '@/components/ui/alert-dialog.tsx';
+import {Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue,} from '@/components/ui/select'
+import {InputOTP, InputOTPGroup, InputOTPSlot} from '@/components/ui/input-otp'
 import {Button} from '@/components/ui/button.tsx';
-import { Checkbox } from "@/components/ui/checkbox"
-import {
-    Field,
-    FieldDescription,
-    FieldGroup,
-    FieldLabel,
-    FieldLegend,
-    FieldSeparator,
-    FieldSet,
-} from "@/components/ui/field"
-import { Input } from "@/components/ui/input"
-import {
-    Select,
-    SelectContent,
-    SelectItem,
-    SelectTrigger,
-    SelectValue,
-} from "@/components/ui/select"
-import { Textarea } from "@/components/ui/textarea"
+import {useState} from 'react';
+import axios from 'axios';
 import {useNavigate} from 'react-router-dom';
+import {Label} from '@radix-ui/react-label';
 
 export const QuestionnairePage = () => {
+    // const [open, setOpen] = useState(false)
+    const [gender, setGender] = useState('')
+    const [studentNumber, setStudentNumber] = useState('');
+    const [toeicScore, setToeicScore] = useState('');
+    const [group, setGroup] = useState('')
     const navigator = useNavigate();
-    const handleClick = () => {
-        navigator('/quiz')
+
+    const handleClick = async () => {
+        try {
+            console.log(studentNumber, toeicScore, gender, new Date().toISOString())
+            console.log(typeof group)
+            const postQuestionnairesRes = await axios.post('http://localhost:3000/questionnaires', {
+                studentNumber,
+                gender,
+                toeicScore,
+                group,
+                startedAt: new Date().toISOString()
+            })
+            if (postQuestionnairesRes.status === 201) {
+                navigator('/quiz')
+            } else {
+                alert('エラーが発生しました。時間を空けてもう一度お試しください。')
+            }
+        } catch (e) {
+            console.log(e)
+        }
     }
     return <>
-        <div className="w-full max-w-md">
-            <form>
-                <FieldGroup>
-                    <FieldSet>
-                        <FieldLegend>Payment Method</FieldLegend>
-                        <FieldDescription>
-                            All transactions are secure and encrypted
-                        </FieldDescription>
-                        <FieldGroup>
-                            <Field>
-                                <FieldLabel htmlFor="checkout-7j9-card-name-43j">
-                                    Name on Card
-                                </FieldLabel>
-                                <Input
-                                    id="checkout-7j9-card-name-43j"
-                                    placeholder="Evil Rabbit"
-                                    required
-                                />
-                            </Field>
-                            <Field>
-                                <FieldLabel htmlFor="checkout-7j9-card-number-uw1">
-                                    Card Number
-                                </FieldLabel>
-                                <Input
-                                    id="checkout-7j9-card-number-uw1"
-                                    placeholder="1234 5678 9012 3456"
-                                    required
-                                />
-                                <FieldDescription>
-                                    Enter your 16-digit card number
-                                </FieldDescription>
-                            </Field>
-                            <div className="grid grid-cols-3 gap-4">
-                                <Field>
-                                    <FieldLabel htmlFor="checkout-exp-month-ts6">
-                                        Month
-                                    </FieldLabel>
-                                    <Select defaultValue="">
-                                        <SelectTrigger id="checkout-exp-month-ts6">
-                                            <SelectValue placeholder="MM" />
-                                        </SelectTrigger>
-                                        <SelectContent>
-                                            <SelectItem value="01">01</SelectItem>
-                                            <SelectItem value="02">02</SelectItem>
-                                            <SelectItem value="03">03</SelectItem>
-                                            <SelectItem value="04">04</SelectItem>
-                                            <SelectItem value="05">05</SelectItem>
-                                            <SelectItem value="06">06</SelectItem>
-                                            <SelectItem value="07">07</SelectItem>
-                                            <SelectItem value="08">08</SelectItem>
-                                            <SelectItem value="09">09</SelectItem>
-                                            <SelectItem value="10">10</SelectItem>
-                                            <SelectItem value="11">11</SelectItem>
-                                            <SelectItem value="12">12</SelectItem>
-                                        </SelectContent>
-                                    </Select>
-                                </Field>
-                                <Field>
-                                    <FieldLabel htmlFor="checkout-7j9-exp-year-f59">
-                                        Year
-                                    </FieldLabel>
-                                    <Select defaultValue="">
-                                        <SelectTrigger id="checkout-7j9-exp-year-f59">
-                                            <SelectValue placeholder="YYYY" />
-                                        </SelectTrigger>
-                                        <SelectContent>
-                                            <SelectItem value="2024">2024</SelectItem>
-                                            <SelectItem value="2025">2025</SelectItem>
-                                            <SelectItem value="2026">2026</SelectItem>
-                                            <SelectItem value="2027">2027</SelectItem>
-                                            <SelectItem value="2028">2028</SelectItem>
-                                            <SelectItem value="2029">2029</SelectItem>
-                                        </SelectContent>
-                                    </Select>
-                                </Field>
-                                <Field>
-                                    <FieldLabel htmlFor="checkout-7j9-cvv">CVV</FieldLabel>
-                                    <Input id="checkout-7j9-cvv" placeholder="123" required />
-                                </Field>
-                            </div>
-                        </FieldGroup>
-                    </FieldSet>
-                    <FieldSeparator />
-                    <FieldSet>
-                        <FieldLegend>Billing Address</FieldLegend>
-                        <FieldDescription>
-                            The billing address associated with your payment method
-                        </FieldDescription>
-                        <FieldGroup>
-                            <Field orientation="horizontal">
-                                <Checkbox
-                                    id="checkout-7j9-same-as-shipping-wgm"
-                                    defaultChecked
-                                />
-                                <FieldLabel
-                                    htmlFor="checkout-7j9-same-as-shipping-wgm"
-                                    className="font-normal"
-                                >
-                                    Same as shipping address
-                                </FieldLabel>
-                            </Field>
-                        </FieldGroup>
-                    </FieldSet>
-                    <FieldSet>
-                        <FieldGroup>
-                            <Field>
-                                <FieldLabel htmlFor="checkout-7j9-optional-comments">
-                                    Comments
-                                </FieldLabel>
-                                <Textarea
-                                    id="checkout-7j9-optional-comments"
-                                    placeholder="Add any additional comments"
-                                    className="resize-none"
-                                />
-                            </Field>
-                        </FieldGroup>
-                    </FieldSet>
-                    <Field orientation="horizontal">
-                        <Button type="submit">Submit</Button>
-                        <Button variant="outline" type="button">
-                            Cancel
-                        </Button>
-                    </Field>
-                </FieldGroup>
-            </form>
+        <div className="flex flex-col  w-full h-screen justify-center items-center gap-8">
+            <div className="flex flex-col items-start gap-8">
+                <Label>
+                    学籍番号を入力してください。
+                    <InputOTP
+                        maxLength={6}
+                        value={studentNumber}
+                        onChange={(value) => setStudentNumber(value)}
+                    >
+                        <InputOTPGroup>
+                            <InputOTPSlot index={0}/>
+                            <InputOTPSlot index={1}/>
+                            <InputOTPSlot index={2}/>
+                            <InputOTPSlot index={3}/>
+                            <InputOTPSlot index={4}/>
+                            <InputOTPSlot index={5}/>
+                        </InputOTPGroup>
+                    </InputOTP>
+                    <div className="text-center text-sm">
+                        {studentNumber === '' ? (
+                            <></>
+                        ) : (
+                            <></>
+                        )}
+                    </div>
+                </Label>
 
-        <AlertDialog>
-            <AlertDialogTrigger asChild>
-                <Button variant="outline">Show Dialog</Button>
-            </AlertDialogTrigger>
-            <AlertDialogContent>
-                <AlertDialogHeader>
-                    <AlertDialogTitle>準備は完了していますか？</AlertDialogTitle>
-                    <AlertDialogDescription>
-                        次へボタンを押すと弁別テストが開始されます。
-                        途中中断ができません。準備の上、次へボタンを教えてください。
+                <Label>
+                    参加者の性別を選択してください。
+                    <Select onValueChange={(value) => setGender(value)} value={gender}>
+                        <SelectTrigger className="w-[180px]">
+                            <SelectValue placeholder=""/>
+                        </SelectTrigger>
+                        <SelectContent>
+                            <SelectGroup>
+                                <SelectItem value="男性">男性</SelectItem>
+                                <SelectItem value="女性">女性</SelectItem>
+                            </SelectGroup>
+                        </SelectContent>
+                    </Select>
+                </Label>
 
-                        事前にイヤホン、キーボード、静かな環境を用意してください。
-                    </AlertDialogDescription>
-                </AlertDialogHeader>
-                <AlertDialogFooter>
-                    <AlertDialogCancel>戻る</AlertDialogCancel>
-                    <AlertDialogAction onClick={handleClick}>次へ</AlertDialogAction>
-                </AlertDialogFooter>
-            </AlertDialogContent>
-        </AlertDialog>
+
+                <Label>
+                    TOEICスコアを入力してください。
+                    <InputOTP
+                        maxLength={3}
+                        value={toeicScore}
+                        onChange={(value) => setToeicScore(value)}
+                    >
+                        <InputOTPGroup>
+                            <InputOTPSlot index={0}/>
+                            <InputOTPSlot index={1}/>
+                            <InputOTPSlot index={2}/>
+                        </InputOTPGroup>
+                    </InputOTP>
+                    <div className="text-center text-sm">
+                        {toeicScore === '' ? (
+                            <></>
+                        ) : (
+                            <></>
+                        )}
+                    </div>
+                </Label>
+
+                <Label>
+                    グループを選択してください。
+                    <Select onValueChange={(value) => setGroup(value)} value={group}>
+                        <SelectTrigger className="w-[180px]">
+                            <SelectValue placeholder=""/>
+                        </SelectTrigger>
+                        <SelectContent>
+                            <SelectGroup>
+                                <SelectItem value="groupA">groupA</SelectItem>
+                                <SelectItem value="groupB">groupB </SelectItem>
+                                <SelectItem value="groupC">groupC </SelectItem>
+                                <SelectItem value="groupD">groupD </SelectItem>
+                                <SelectItem value="groupE">groupE </SelectItem>
+                            </SelectGroup>
+                        </SelectContent>
+                    </Select>
+                </Label>
+
+            </div>
+
+
+            <AlertDialog>
+                <AlertDialogTrigger asChild>
+                    <Button variant="outline">完了</Button>
+                </AlertDialogTrigger>
+                <AlertDialogContent>
+                    <AlertDialogHeader>
+                        <AlertDialogTitle>準備は完了していますか？</AlertDialogTitle>
+                        <AlertDialogDescription>
+                            次へボタンを押すと弁別テストの練習が開始されます。
+                            準備の上、次へボタンを教えてください。
+
+                            事前にイヤホン、キーボード、静かな環境を用意してください。
+                        </AlertDialogDescription>
+                    </AlertDialogHeader>
+                    <AlertDialogFooter>
+                        <AlertDialogCancel>戻る</AlertDialogCancel>
+                        <AlertDialogAction onClick={handleClick}>次へ</AlertDialogAction>
+                    </AlertDialogFooter>
+                </AlertDialogContent>
+            </AlertDialog>
         </div>
     </>
 
