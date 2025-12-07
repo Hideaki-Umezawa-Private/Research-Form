@@ -52,3 +52,23 @@ Resources:
           Properties:
             Path: /questionnaires
             Method: options
+
+  GetQuestionnaireFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: ../../../lambda/main/getQuestionnaires/dist/
+      Handler: index.handler
+      Runtime: nodejs20.x
+      Environment:
+        Variables:
+          AWS_ACCESS_KEY_ID: test
+          AWS_SECRET_ACCESS_KEY: test
+          S3_ENDPOINT: http://host.docker.internal:4566
+          DYNAMODB_ENDPOINT: http://host.docker.internal:4566
+          DYNAMODB_TABLE: dev-research-form-progress
+      Events:
+        GetUsersApi:
+          Type: Api
+          Properties:
+            Path: /questionnaires
+            Method: get

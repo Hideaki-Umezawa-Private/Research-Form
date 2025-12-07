@@ -7,6 +7,18 @@ import {
     TableHeader,
     TableRow,
 } from '@/components/ui/table'
+import axios from 'axios';
+import {useState} from 'react';
+import {useAsync} from 'react-use';
+
+type Questionnaire = {
+    pk: string
+    sk: string
+    gender: string
+    toeicScore: string
+    group: string
+    startedAt: string
+}
 
 const invoices = [
     {
@@ -98,10 +110,38 @@ const invoices1 = [
     },
 ]
 
-export function AdministratorPage() {
+export const AdministratorPage = () => {
+    const [data, setData] = useState<Questionnaire[]>([])
+
+    useAsync(async () => {
+        try {
+            const getQuestionnairesRes = await axios.get('http://localhost:3000/questionnaires')
+            if (getQuestionnairesRes.status === 200) {
+                const resData = getQuestionnairesRes.data
+                setData(resData)
+            } else {
+                alert('エラーが発生しました。時間を空けてもう一度お試しください。')
+            }
+        } catch (e) {
+            console.log(e)
+        }
+    }, [])
+
+    console.log(data[0])
     return (
         <>
             <a>アンケート結果</a>
+            <>{data.map(item => (
+                <tr key={`${item.pk}-${item.sk}`}>
+                    <td>{item.pk}</td>
+                    <td>{item.sk}</td>
+                    <td>{item.gender}</td>
+                    <td>{item.toeicScore}</td>
+                    <td>{item.group}</td>
+                    <td>{item.startedAt}</td>
+                </tr>
+            ))}
+            </>
             <Table className="border border-black mb-10 w-[300px]">
                 {/*<TableCaption>A list of your recent invoices.</TableCaption>*/}
                 <TableHeader>
