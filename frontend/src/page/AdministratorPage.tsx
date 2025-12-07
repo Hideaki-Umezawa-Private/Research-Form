@@ -131,17 +131,31 @@ export const AdministratorPage = () => {
     return (
         <>
             <a>アンケート結果</a>
-            <>{data.map(item => (
-                <tr key={`${item.pk}-${item.sk}`}>
-                    <td>{item.pk}</td>
-                    <td>{item.sk}</td>
-                    <td>{item.gender}</td>
-                    <td>{item.toeicScore}</td>
-                    <td>{item.group}</td>
-                    <td>{item.startedAt}</td>
+            <table>
+                <thead>
+                <tr>
+                    <th>pk</th>
+                    <th>sk</th>
+                    <th>gender</th>
+                    <th>toeicScore</th>
+                    <th>group</th>
+                    <th>startedAt</th>
                 </tr>
-            ))}
-            </>
+                </thead>
+
+                <tbody>
+                {data.map(item => (
+                    <tr key={`${item.pk}-${item.sk}`}>
+                        <td>{item.pk}</td>
+                        <td>{item.sk}</td>
+                        <td>{item.gender}</td>
+                        <td>{item.toeicScore}</td>
+                        <td>{item.group}</td>
+                        <td>{item.startedAt}</td>
+                    </tr>
+                ))}
+                </tbody>
+            </table>
             <Table className="border border-black mb-10 w-[300px]">
                 {/*<TableCaption>A list of your recent invoices.</TableCaption>*/}
                 <TableHeader>
@@ -153,8 +167,8 @@ export const AdministratorPage = () => {
                     </TableRow>
                 </TableHeader>
                 <TableBody>
-                    {invoices.map((invoice) => (
-                        <TableRow key={invoice.invoice}>
+                    {invoices.map((invoice,index) => (
+                            <TableRow key={index}>
                             <TableCell className="font-medium">{invoice.invoice}</TableCell>
                             <TableCell>{invoice.paymentStatus}</TableCell>
                             <TableCell>{invoice.paymentMethod}</TableCell>
@@ -174,8 +188,9 @@ export const AdministratorPage = () => {
                     </TableRow>
                 </TableHeader>
                 <TableBody>
-                    {invoices1.map((invoice) => (
-                        <TableRow key={invoice.invoice}>
+                    {invoices1.map((invoice,index) => (
+                            // <TableRow key={`${invoice.invoice}-${invoice.paymentStatus}-${invoice.paymentMethod}-${invoice.totalAmount}`}>
+                            <TableRow key={index}>
                             <TableCell className="font-medium">{invoice.invoice}</TableCell>
                             <TableCell>{invoice.paymentStatus}</TableCell>
                             <TableCell>{invoice.paymentMethod}</TableCell>
