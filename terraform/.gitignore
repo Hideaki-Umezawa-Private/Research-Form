@@ -43,5 +43,4 @@ terraform.rc
 **/.aws-sam
 **/.aws-sam-iacs
 
-**/*.zip # ffmpeg-layer.zipのみ管理対象とする
-!modules/lambda/layers/ffmpeg-layer.zip
+**/iam.plan
